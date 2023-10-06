@@ -30,7 +30,7 @@ nextDay Saturday = Sunday
 nextDay Sunday = Monday
 
 -- | Returns the day of the week after a given number of days has passed.
-afterDays :: Int -> Day -> Day
+afterDays :: Natural -> Day -> Day
 afterDays 0 day = day
 afterDays n day = afterDays (n - 1) (nextDay day)
 

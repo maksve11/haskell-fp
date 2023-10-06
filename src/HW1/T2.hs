@@ -27,7 +27,9 @@ nmult (S m) n = nplus n (nmult m n)
 nsub :: N -> N -> Maybe N
 nsub Z _ = Just Z
 nsub m Z = Just m
-nsub (S m) (S n) = nsub m n
+nsub (S m) (S n) = case nsub m n of
+    Just res -> Just (S res)
+    Nothing -> Nothing
 
 ncmp :: N -> N -> Ordering
 ncmp Z Z = EQ
@@ -55,12 +57,12 @@ nOdd (S n) = nEven n
 ndiv :: N -> N -> N
 ndiv _ Z = undefined
 ndiv Z _ = Z
-ndiv m n = case (nsub m n) of
+ndiv m n = case nsub m n of
     Just res -> S (ndiv res n)
     Nothing -> undefined
 
 nmod :: N -> N -> N
 nmod _ Z = undefined
-nmod m n = case (nsub m (nmult (ndiv m n) n)) of
+nmod m n = case nsub m (nmult (ndiv m n) n) of
     Just res -> res
     Nothing -> undefined
