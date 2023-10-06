@@ -1,0 +1,5 @@
+.stack-work/
+.CHANGELOG.md
+.app/
+.test/
+*~
