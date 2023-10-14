@@ -1,103 +1,175 @@
 Homework #2
-Classroom
+===========
 
 Task 1
-Create a module named HW2.T1.
+------
 
-Using the Tree data type defined in this module,
+1. Create a module named `HW2.T1`.
 
-data Tree a = Leaf | Branch !Int (Tree a) a (Tree a)
-  deriving (Show)
-where Int stands for the tree size, define the following function:
+2. Using the `Tree` data type defined in this module,
 
-tfoldr :: (a -> b -> b) -> b -> Tree a -> b
-It must collect the elements in order:
+   ```
+   data Tree a = Leaf | Branch !Int (Tree a) a (Tree a)
+     deriving (Show)
+   ```
 
-treeToList :: Tree a -> [a]    -- output list is sorted
-treeToList = tfoldr (:) []
-This follows from the Sorted invariant.
+   where `Int` stands for the tree size, define the following function:
 
-You are encouraged to define tfoldr in an efficient manner, doing only a single pass over the tree and without constructing intermediate lists.
+   ```
+   tfoldr :: (a -> b -> b) -> b -> Tree a -> b
+   ```
 
-* If you're wondering what is ! in the Branch constructor, it's called strictness annotation and forces the evaluation of the constructor argument.
+   It must collect the elements in order:
+
+   ```
+   treeToList :: Tree a -> [a]    -- output list is sorted
+   treeToList = tfoldr (:) []
+   ```
+
+   This follows from the **Sorted** invariant.
+
+   You are encouraged to define `tfoldr` in an efficient manner, doing only a
+   single pass over the tree and without constructing intermediate lists.
+
+   \* If you're wondering what is `!` in the `Branch` constructor, it's called
+   **strictness annotation** and forces the evaluation of the constructor argument.
 
 Task 2
-Create a module named HW2.T2.
+------
 
-Implement the following function:
+1. Create a module named `HW2.T2`.
 
-splitOn :: Eq a => a -> [a] -> NonEmpty [a]
-Conceptually, it splits a list into sublists by a separator:
+2. Implement the following function:
 
-ghci> splitOn '/' "path/to/file"
-["path", "to", "file"]
+   ```
+   splitOn :: Eq a => a -> [a] -> NonEmpty [a]
+   ```
 
-ghci> splitOn '/' "path/with/trailing/slash/"
-["path", "with", "trailing", "slash", ""]
-Due to the use of NonEmpty to enforce that there is at least one sublist in the output, the actual GHCi result will look slightly differently:
+   Conceptually, it splits a list into sublists by a separator:
 
-ghci> splitOn '/' "path/to/file"
-"path" :| ["to","file"]
-Do not let that confuse you. The first element is not in any way special.
+   ```
+   ghci> splitOn '/' "path/to/file"
+   ["path", "to", "file"]
 
-Implement the following function:
+   ghci> splitOn '/' "path/with/trailing/slash/"
+   ["path", "with", "trailing", "slash", ""]
+   ```
 
-joinWith :: a -> NonEmpty [a] -> [a]
-It must be the inverse of splitOn, so that:
+   Due to the use of `NonEmpty` to enforce that there is at least one sublist in the output,
+   the actual GHCi result will look slightly differently:
 
-(joinWith sep . splitOn sep)  ≡  id
-Example usage:
+   ```
+   ghci> splitOn '/' "path/to/file"
+   "path" :| ["to","file"]
+   ```
 
-ghci> "import " ++ joinWith '.' ("Data" :| "List" : "NonEmpty" : [])
-"import Data.List.NonEmpty"
+   Do not let that confuse you. The first element is not in any way special.
+
+3. Implement the following function:
+
+   ```
+   joinWith :: a -> NonEmpty [a] -> [a]
+   ```
+
+   It must be the inverse of `splitOn`, so that:
+
+   ```
+   (joinWith sep . splitOn sep)  ≡  id
+   ```
+
+   Example usage:
+
+   ```
+   ghci> "import " ++ joinWith '.' ("Data" :| "List" : "NonEmpty" : [])
+   "import Data.List.NonEmpty"
+   ```
+
 Task 3
-Create a module named HW2.T3.
+------
 
-Using Foldable methods only*, implement the following function:
+1. Create a module named `HW2.T3`.
 
-mcat :: Monoid a => [Maybe a] -> a
-Example usage:
+2. Using `Foldable` methods *only*\*, implement the following function:
 
-ghci> mcat [Just "mo", Nothing, Nothing, Just "no", Just "id"]
-"monoid"
+   ```
+   mcat :: Monoid a => [Maybe a] -> a
+   ```
 
-ghci> Data.Monoid.getSum $ mcat [Nothing, Just 2, Nothing, Just 40]
-42
-* Means that the only allowed import in HW2.T3 is Data.Foldable
+   Example usage:
 
-Using foldMap to consume the list, implement the following function:
+   ```
+   ghci> mcat [Just "mo", Nothing, Nothing, Just "no", Just "id"]
+   "monoid"
 
-epart :: (Monoid a, Monoid b) => [Either a b] -> (a, b)
-Example usage:
+   ghci> Data.Monoid.getSum $ mcat [Nothing, Just 2, Nothing, Just 40]
+   42
+   ```
+   \* Means that the only allowed import in `HW2.T3` is `Data.Foldable`
 
-ghci> epart [Left (Sum 3), Right [1,2,3], Left (Sum 5), Right [4,5]]
-(Sum {getSum = 8},[1,2,3,4,5])
+3. Using `foldMap` to consume the list, implement the following function:
+
+   ```
+   epart :: (Monoid a, Monoid b) => [Either a b] -> (a, b)
+   ```
+
+   Example usage:
+
+   ```
+   ghci> epart [Left (Sum 3), Right [1,2,3], Left (Sum 5), Right [4,5]]
+   (Sum {getSum = 8},[1,2,3,4,5])
+   ```
+
 Task 4
-Create a module named HW2.T4.
+------
 
-Define the following data type and a lawful Semigroup instance for it:
+1. Create a module named `HW2.T4`.
 
-data ListPlus a = a :+ ListPlus a | Last a
-infixr 5 :+
-Define the following data type and a lawful Semigroup instance for it:
+2. Define the following data type and a lawful `Semigroup` instance for it:
 
-data Inclusive a b = This a | That b | Both a b
-The instance must not discard any values:
+   ```
+   data ListPlus a = a :+ ListPlus a | Last a
+   infixr 5 :+
+   ```
 
-This i  <>  This j  =  This (i <> j)   -- OK
-This i  <>  This _  =  This i          -- This is not the Semigroup you're looking for.
-Define the following data type:
+3. Define the following data type and a lawful `Semigroup` instance for it:
 
-newtype DotString = DS String
-Implement a Semigroup instance for it, such that the strings are concatenated with a dot:
+   ```
+   data Inclusive a b = This a | That b | Both a b
+   ```
 
-ghci> DS "person" <> DS "address" <> DS "city"
-DS "person.address.city"
-Implement a Monoid instance for it using DS "" as the identity element. Make sure that the laws hold:
+   The instance must not discard any values:
 
-mempty <> a  ≡  a
-a <> mempty  ≡  a
-Define the following data type:
+   ```
+   This i  <>  This j  =  This (i <> j)   -- OK
+   This i  <>  This _  =  This i          -- This is not the Semigroup you're looking for.
+   ```
 
-newtype Fun a = F (a -> a)
-Implement lawful Semigroup and Monoid instances for it.
+4. Define the following data type:
+
+   ```
+   newtype DotString = DS String
+   ```
+
+   Implement a `Semigroup` instance for it, such that the strings are
+   concatenated with a dot:
+
+   ```
+   ghci> DS "person" <> DS "address" <> DS "city"
+   DS "person.address.city"
+   ```
+
+   Implement a `Monoid` instance for it using `DS ""` as the identity element.
+   Make sure that the laws hold:
+
+   ```
+   mempty <> a  ≡  a
+   a <> mempty  ≡  a
+   ```
+
+5. Define the following data type:
+
+   ```
+   newtype Fun a = F (a -> a)
+   ```
+
+   Implement lawful `Semigroup` and `Monoid` instances for it.
