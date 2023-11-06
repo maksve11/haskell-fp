@@ -1,4 +1,24 @@
-module HW3.T2 where
+module HW3.T2 
+    ( distOption
+    , distPair
+    , distQuad
+    , distAnnotated
+    , distExcept
+    , distPrioritised
+    , distStream
+    , distList
+    , distFun
+    , wrapOption
+    , wrapPair
+    , wrapQuad
+    , wrapAnnotated
+    , wrapExcept
+    , wrapPrioritised
+    , wrapStream
+    , wrapList
+    , wrapFun
+    )
+where
 
 import HW3.T1
 
@@ -30,12 +50,13 @@ distExcept (Success a1, Success a2) = Success (a1, a2)
 
 -- Prioritised
 distPrioritised :: (Prioritised a, Prioritised b) -> Prioritised (a, b)
-distPrioritised (High a1, High a2) = High (a1, a2)
+distPrioritised (High a, High b) = High (a, b)
 distPrioritised (Medium a, High b) = High (a, b)
 distPrioritised (Medium a, Medium b) = Medium (a, b)
+distPrioritised (Medium a, Low b) = Low (a, b)
 distPrioritised (Low a, High b) = High (a, b)
-distPrioritised (Low a, Medium b) = Medium (a, b)
-distPrioritised (Low a1, Low a2) = Low (a1, a2)
+distPrioritised (Low a, Medium b) = Low (a, b)
+distPrioritised (Low a, Low b) = Low (a, b)
 
 -- Stream
 distStream :: (Stream a, Stream b) -> Stream (a, b)

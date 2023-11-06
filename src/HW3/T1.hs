@@ -1,4 +1,26 @@
-module HW3.T1 where
+module HW3.T1 
+    ( Option (None, Some)
+    , Pair (P)
+    , Quad (Q)
+    , Annotated ((:#))
+    , Except (Error, Success)
+    , Prioritised (Low, Medium, High)
+    , Stream ((:>))
+    , List (Nil, (:.))
+    , Fun (F)
+    , Tree (Leaf, Branch)
+    , mapOption
+    , mapPair
+    , mapQuad
+    , mapAnnotated
+    , mapExcept
+    , mapPrioritised
+    , mapStream
+    , mapList
+    , mapFun
+    , mapTree
+    )
+where
 
 data Option a = None | Some a
 data Pair a = P a a

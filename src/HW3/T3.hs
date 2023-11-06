@@ -1,4 +1,12 @@
-module HW3.T3 where
+{-# LANGUAGE FlexibleContexts #-}
+
+module HW3.T3 
+    ( joinOption
+    , lawAssociativityOption
+    , lawLeftIdentityOption
+    , lawRightIdentityOption
+    )
+where
 
 import HW3.T1
 import HW3.T2
@@ -10,7 +18,7 @@ joinOption (Some innerOption) = innerOption
 
 -- Associativity Law for Option
 lawAssociativityOption :: Eq (Option a) => Option (Option (Option a)) -> Bool
-lawAssociativityOption m = joinOption (mapOption joinOption m) == joinOption (joinOption m)
+lawAssociativityOption m = joinOption (joinOption m) == joinOption (mapOption joinOption m)
 
 -- Left Identity Law for Option
 lawLeftIdentityOption :: Eq (Option a) => Option a -> Bool

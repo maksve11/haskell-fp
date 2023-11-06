@@ -1,8 +1,16 @@
-module HW3.T4 where
-
+module HW3.T4
+    ( State(..)
+    , Prim(..)
+    , Expr(..)
+    , mapState
+    , wrapState
+    , joinState
+    , modifyState
+    , eval
+    )
+where
+    
 import HW3.T1
-import HW3.T2
-import HW3.T3
 
 -- Define the State data type
 data State s a = S { runS :: s -> Annotated s a }
