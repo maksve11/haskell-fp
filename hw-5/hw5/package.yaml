@@ -1,0 +1,109 @@
+name:                hw5
+version:             0.1.0.0
+github:              "githubuser/hw5"
+license:             BSD3
+author:              "maksvell"
+maintainer:          "example@example.com"
+copyright:           "2023 maksvell"
+
+description:         Please see the README on GitHub at <https://github.com/githubuser/hw5#readme>
+
+dependencies:
+  - base >= 4.7 && < 5
+  - bytestring
+  - containers
+  - directory
+  - haskeline
+  - megaparsec
+  - optparse-applicative
+  - parser-combinators
+  - prettyprinter
+  - prettyprinter-ansi-terminal
+  - random
+  - scientific
+  - serialise
+  - text
+  - time
+  - transformers
+  - zlib
+
+ghc-options:
+  - -Wall
+  - -Werror
+  - -Wcompat
+  - -Widentities
+  - -Wincomplete-record-updates
+  - -Wincomplete-uni-patterns
+  - -Wmissing-export-lists
+  - -Wmissing-home-modules
+  - -Wpartial-fields
+  - -Wredundant-constraints
+
+library:
+  source-dirs: src
+  dependencies:
+    - base >= 4.7 && < 5
+    - bytestring
+    - containers
+    - directory
+    - haskeline
+    - megaparsec
+    - optparse-applicative
+    - parser-combinators
+    - prettyprinter
+    - prettyprinter-ansi-terminal
+    - random
+    - scientific
+    - serialise
+    - text
+    - time
+    - transformers
+    - zlib
+
+executables:
+  hi:
+    main:                Main.hs
+    source-dirs:         app
+    ghc-options:
+      - -threaded
+      - -rtsopts
+      - -with-rtsopts=-N
+    dependencies:
+      - base >= 4.7 && < 5
+      - containers
+      - haskeline
+      - hw5
+      - megaparsec
+      - optparse-applicative
+      - prettyprinter
+      - prettyprinter-ansi-terminal
+      - text
+      - transformers
+
+tests:
+  hw5-test:
+    main:                Spec.hs
+    source-dirs:         test
+    ghc-options:
+      - -threaded
+      - -rtsopts
+      - -with-rtsopts=-N
+    dependencies:
+      - base >= 4.7 && < 5
+      - hw5
+      # - bytestring
+      # - containers
+      # - directory
+      # - haskeline
+      # - prettyprinter
+      # - prettyprinter-ansi-terminal
+      # - text
+      # - time
+      # - transformers
+      # - tasty-hspec
+      # - tasty
+      # - hspec
+      # - hspec-core
+      # - hedgehog
+      # - tasty-hedgehog
+      # - silently
